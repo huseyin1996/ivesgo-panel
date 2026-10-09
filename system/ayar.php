@@ -20,9 +20,9 @@ if (ENVIRONMENT === 'development') {
 date_default_timezone_set('Europe/Istanbul');
 
 $dbHost     = "localhost";
-$dbName     = "site_ivesgo_panel";
-$dbUser     = "site_ivesgo_panel";
-$dbPass     = "tmXBciOUJMdL";
+$dbName     = "x";
+$dbUser     = "x";
+$dbPass     = "x";
 
 try {
     $dsn = "mysql:host={$dbHost};dbname={$dbName};charset=utf8mb4";
