@@ -1,0 +1,15 @@
+# Dosya silme işlemi için gerekli izinler
+<Files "php/deletefile.php">
+    Order allow,deny
+    Allow from all
+</Files>
+
+<FilesMatch "\.php$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+<Files "index.php">
+    Order allow,deny
+    Allow from all
+</Files>
