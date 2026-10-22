@@ -78,7 +78,7 @@ if (isset($_POST)) {
             exit;
         }
 
-        $stmt = $db->prepare("SELECT uye_id FROM i_uyeler WHERE sifre_kod = ? AND sifre_kod_tarih >= NOW()");
+        $stmt = $db->prepare("SELECT uye_id, uye_sifre, eski_sifreler FROM i_uyeler WHERE sifre_kod = ? AND sifre_kod_tarih >= NOW()");
         $stmt->execute([$token]);
         $uye = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -87,10 +87,36 @@ if (isset($_POST)) {
             exit;
         }
 
+        $eski_sifreler_arr = [];
+        if (!empty($uye['eski_sifreler'])) {
+            $decoded = json_decode($uye['eski_sifreler'], true);
+            if (is_array($decoded)) {
+                $eski_sifreler_arr = $decoded;
+            }
+        }
+
+        foreach ($eski_sifreler_arr as $eski_hash) {
+            if (password_verify($yeni_sifre, $eski_hash)) {
+                alert("Hata", "Güvenliğiniz için son kullandığınız 3 şifreden birini tekrar kullanamazsınız. Lütfen farklı bir şifre belirleyin.", "error");
+                exit;
+            }
+        }
+
+        if (!empty($uye['uye_sifre']) && password_verify($yeni_sifre, $uye['uye_sifre'])) {
+            alert("Hata", "Yeni şifreniz mevcut şifrenizle aynı olamaz.", "error");
+            exit;
+        }
+
+        if (!empty($uye['uye_sifre'])) {
+            array_unshift($eski_sifreler_arr, $uye['uye_sifre']);
+            $eski_sifreler_arr = array_slice($eski_sifreler_arr, 0, 3); 
+        }
+
+        $eski_sifreler_json = json_encode($eski_sifreler_arr);
         $hash_sifre = password_hash($yeni_sifre, PASSWORD_DEFAULT);
 
-        $guncelle = $db->prepare("UPDATE i_uyeler SET uye_sifre = ?, sifre_kod = NULL, sifre_kod_tarih = NULL WHERE uye_id = ?");
-        $guncelle->execute([$hash_sifre, $uye['uye_id']]);
+        $guncelle = $db->prepare("UPDATE i_uyeler SET uye_sifre = ?, eski_sifreler = ?, sifre_kod = NULL, sifre_kod_tarih = NULL WHERE uye_id = ?");
+        $guncelle->execute([$hash_sifre, $eski_sifreler_json, $uye['uye_id']]);
 
         if (function_exists('sistemLogEkle')) {
             sistemLogEkle($db, 'PASSWORD_RESET', 'Şifre Güncellendi', "Üye ID: {$uye['uye_id']} başarıyla yeni şifresini belirledi.");
