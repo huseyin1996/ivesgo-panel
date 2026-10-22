@@ -368,7 +368,7 @@ function kritikStoklariGetir($db) {
 
 function MailGonder($db, $konu, $aciklama, $ozelAlici = null) {
     
-    global $ayar, $bloklar, $site_iletisim; 
+    global $ayar, $dil, $site_iletisim; 
 
     if (!$ayar || empty($ayar['mail_ayarlari'])) {
         return false;
@@ -381,7 +381,7 @@ function MailGonder($db, $konu, $aciklama, $ozelAlici = null) {
     $user   = $mailAyarlari['user'] ?? 'send@ivesgo.com';
     $pass   = $mailAyarlari['pass'] ?? '';
     $anaAlici = $mailAyarlari['alici'] ?? 'destek@ivesgo.com';
-    $isim   = $mailAyarlari['isim'] ?? $bloklar['firma_adi'];
+    $isim   = $mailAyarlari['isim'] ?? $dil['firma_adi'];
 
     $hedefAlici = !empty($ozelAlici) ? $ozelAlici : $anaAlici;
 
@@ -403,7 +403,7 @@ function MailGonder($db, $konu, $aciklama, $ozelAlici = null) {
         $mail->CharSet    = 'UTF-8';
 
         $mail->setFrom($user, $isim);
-        $mail->addAddress($hedefAlici, $bloklar['firma_adi']);
+        $mail->addAddress($hedefAlici, $dil['firma_adi']);
 
         ob_start();
         include 'Mailler/Template.php';
@@ -723,7 +723,7 @@ function resimVarmi($path, $name) {
 }
 
 function sistemLogEkle($db, $islem_turu, $modul, $aciklama) {
-    $personel_id = $_SESSION['uye_id'];
+    $personel_id = $_SESSION['uye_id'] ?? 0;
     
     $ip_adresi = $_SERVER['REMOTE_ADDR'];
     if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
