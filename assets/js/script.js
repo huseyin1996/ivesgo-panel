@@ -643,28 +643,28 @@ if ($("#login").length > 0) {
     }
 }
 
-const idleLimitMinutes = 15;
-const idleLimitMs = idleLimitMinutes * 60 * 1000;
-let lastActivityTime = Date.now();
+// const idleLimitMinutes = 15;
+// const idleLimitMs = idleLimitMinutes * 60 * 1000;
+// let lastActivityTime = Date.now();
 
-function resetIdleTimer() {
-    lastActivityTime = Date.now();
-}
+// function resetIdleTimer() {
+//     lastActivityTime = Date.now();
+// }
 
-const events = ['mousemove', 'mousedown', 'keypress', 'scroll', 'touchstart', 'input', 'click'];
-events.forEach(eventName => {
-    window.addEventListener(eventName, resetIdleTimer, true);
-});
+// const events = ['mousemove', 'mousedown', 'keypress', 'scroll', 'touchstart', 'input', 'click'];
+// events.forEach(eventName => {
+//     window.addEventListener(eventName, resetIdleTimer, true);
+// });
 
-const idleInterval = setInterval(function() {
-    let currentTime = Date.now();
-    let elapsedMs = currentTime - lastActivityTime;
+// const idleInterval = setInterval(function() {
+//     let currentTime = Date.now();
+//     let elapsedMs = currentTime - lastActivityTime;
     
-    if (elapsedMs >= idleLimitMs) {
-        clearInterval(idleInterval);
-        window.location.href = _url + "lock?reason=timeout";
-    }
-}, 10000);
+//     if (elapsedMs >= idleLimitMs) {
+//         clearInterval(idleInterval);
+//         window.location.href = _url + "lock?reason=timeout";
+//     }
+// }, 10000);
 
 
 document.addEventListener("DOMContentLoaded", function() {

@@ -59,7 +59,7 @@
                                                         <label class="form-check-label" for="defaultCheck1">
                                                             Beni Hatırla
                                                         </label>
-                                                        <a href="reset-password-basic.html" class="float-end link-danger fw-medium fs-12">Şifrenizi mi unuttunuz ?</a>
+                                                        <a href="sifremi-unuttum/" class="float-end link-danger fw-medium fs-12">Şifrenizi mi unuttunuz ?</a>
                                                     </div>
                                                 </div>
                                             </div>

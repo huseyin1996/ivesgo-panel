@@ -1,8 +1,8 @@
 <?php
-if (!isset($_SESSION['uye_id']) && !in_array($par[1] ?? '', ['login', 'sifre-sifirla'])) {
+if (!isset($_SESSION['uye_id']) && !in_array($par[1] ?? '', ['login', 'Auth'])) {
     if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
         header('Content-Type: application/json; charset=utf-8');
-        echo json_encode(['type' => 'error', 'message' => 'Bu işlem için yetkiniz yok veya oturumunuz sonlandırıldı.']);
+        alert("Hata", "Bu işlem için yetkiniz yok veya oturumunuz sonlandırıldı.", "error");
         exit;
     } else {
         header("Location: " . URL . "giris");

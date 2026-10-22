@@ -55,11 +55,8 @@ $tema_cek   = json_decode($ayar["tema_ayarlari"],true);
 
 $front_pages = [
     "giris", 
-    "lock", 
     "sifremi-unuttum", 
-    "sifre-sifirla", 
-    "kayit-ol", 
-    "siparis-yazdir",
+    "sifre-sifirla"
 ];
 
 defined("URL") || define("URL", rtrim($ayar["site_url"], '/') . '/');
